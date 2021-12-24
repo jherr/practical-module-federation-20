@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "./index.css";
+import "./index.scss";
 
 function loadComponent(scope, module) {
   return () =>
@@ -83,15 +83,15 @@ function System(props) {
 }
 
 const App = () => (
-  <div>
+  <div className="mt-10 text-3xl mx-auto max-w-6xl">
+    <div>Host page.</div>
     <System
       system={{
-        url: "http://localhost:8082/remoteEntry.js",
+        url: "http://localhost:8080/remoteEntry.js",
         scope: "widget",
         module: "./Widget",
       }}
     />
-    <div>Hi there, I'm React from React.</div>
   </div>
 );
 

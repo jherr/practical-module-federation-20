@@ -4,24 +4,33 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const deps = require("./package.json").dependencies;
 module.exports = {
   output: {
-    publicPath: "http://localhost:8082/",
-  },
-  devServer: {
-    port: 8082,
+    publicPath: "http://localhost:3000/",
   },
 
   resolve: {
-    extensions: [".jsx", ".js", ".json"],
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+  },
+
+  devServer: {
+    port: 3000,
+    historyApiFallback: true,
   },
 
   module: {
     rules: [
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.m?js/,
+        type: "javascript/auto",
+        resolve: {
+          fullySpecified: false,
+        },
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(css|s[ac]ss)$/i,
+        use: ["style-loader", "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -32,12 +41,10 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "widget",
+      name: "host_wp5",
       filename: "remoteEntry.js",
       remotes: {},
-      exposes: {
-        "./Widget": "./src/Widget",
-      },
+      exposes: {},
       shared: {
         ...deps,
         react: {

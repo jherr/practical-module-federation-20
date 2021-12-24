@@ -91,12 +91,12 @@ const DynamicWidget = ({ url, scope, module, ...props }) => {
 
 const App = () => (
   <div>
+    <div>Webpack 4 Host</div>
     <DynamicWidget
-      url={"http://localhost:8082/remoteEntry.js"}
+      url={"http://localhost:8080/remoteEntry.js"}
       scope={"widget"}
       module={"./Widget"}
     />
-    <div>Hi there, I'm React from React in Webpack 4.</div>
   </div>
 );
 
