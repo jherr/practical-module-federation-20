@@ -6,9 +6,18 @@ const db = new Datastore({ filename: "pages.db" });
 db.loadDatabase();
 
 const deps = require("./package.json").dependencies;
-module.exports = () => ({
+module.exports = {
+  output: {
+    publicPath: "http://localhost:8080/",
+  },
+
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+  },
+
   devServer: {
-    before: function (app) {
+    onAfterSetupMiddleware: function (devServer) {
+      const { app } = devServer;
       const bodyParser = require("body-parser");
       app.use(bodyParser.json());
       app.use(require("cors")());
@@ -45,25 +54,8 @@ module.exports = () => ({
         });
       });
     },
+    port: 8080,
     historyApiFallback: true,
-  },
-
-  entry: "./src/index",
-  cache: false,
-
-  mode: "development",
-  devtool: "source-map",
-
-  optimization: {
-    minimize: false,
-  },
-
-  output: {
-    publicPath: "http://localhost:8080/",
-  },
-
-  resolve: {
-    extensions: [".jsx", ".js", ".json"],
   },
 
   module: {
@@ -76,31 +68,29 @@ module.exports = () => ({
         },
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(css|s[ac]ss)$/i,
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.(png|svg|jpg|gif|woff|ttf|woff2|eot)$/,
-        use: ["file-loader"],
-      },
     ],
   },
+
   plugins: [
     new ModuleFederationPlugin({
       name: "admin",
       filename: "remoteEntry.js",
       remotes: {},
       exposes: {
-        Page: "./src/Page",
-        EmbedPage: "./src/EmbedPage",
-        EmbedEditor: "./src/EmbedEditor",
+        "./Shell": "./src/Shell",
+        "./Page": "./src/Page",
+        "./EmbedPage": "./src/EmbedPage",
+        "./EmbedEditor": "./src/EmbedEditor",
       },
       shared: {
         ...deps,
@@ -118,4 +108,4 @@ module.exports = () => ({
       template: "./src/index.html",
     }),
   ],
-});
+};

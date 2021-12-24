@@ -2,15 +2,20 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 const deps = require("./package.json").dependencies;
-
 module.exports = {
+  output: {
+    publicPath: "http://localhost:8081/",
+  },
+
+  resolve: {
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+  },
+
   devServer: {
     port: 8081,
     historyApiFallback: true,
   },
-  resolve: {
-    extensions: [".jsx", ".js", ".json"],
-  },
+
   module: {
     rules: [
       {
@@ -21,22 +26,19 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(css|s[ac]ss)$/i,
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
         },
       },
-      {
-        test: /\.(png|svg|jpg|gif|woff|ttf|woff2|eot)$/,
-        use: ["file-loader"],
-      },
     ],
   },
+
   plugins: [
     new ModuleFederationPlugin({
       name: "home",

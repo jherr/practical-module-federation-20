@@ -1,71 +1,63 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { Header, Container, Menu, Grid } from "semantic-ui-react";
 import {
   BrowserRouter as Router,
-  Switch,
+  Routes,
   Route,
   useParams,
 } from "react-router-dom";
 import { useQuery } from "react-query";
 
-import "semantic-ui-css/semantic.min.css";
+import "./index.scss";
 
+import Shell from "./Shell";
 import Page from "./Page";
 import Editor from "./Editor";
 import { fetchPage } from "./api";
 
 const PageAdmin = () => {
   const { page } = useParams();
-  const { data } = useQuery(["getPage", { page }], fetchPage());
+  const { data, isLoading } = useQuery(["getPage", { page }], () =>
+    fetchPage()(page)
+  );
   const [fields, setFields] = React.useState({});
 
   React.useEffect(() => {
-    setFields(data);
+    setFields(data ?? {});
   }, [data]);
 
   return (
-    <Grid columns={2}>
-      {data && (
-        <Grid.Row>
-          <Grid.Column>
-            <Editor
-              {...fields}
-              page={page}
-              onChange={(k, v) => setFields({ ...fields, [k]: v })}
-            />
-          </Grid.Column>
-          <Grid.Column>
-            <Page {...fields} />
-          </Grid.Column>
-        </Grid.Row>
+    <div>
+      {!isLoading && fields && (
+        <div className="grid grid-cols-2 gap-4">
+          <Editor
+            {...fields}
+            page={page}
+            onChange={(k, v) => setFields({ ...fields, [k]: v })}
+          />
+          <Page {...fields} />
+        </div>
       )}
-    </Grid>
+    </div>
   );
 };
 
 const App = () => (
-  <Router>
-    <Container>
-      <Menu fixed="top" inverted>
-        <Container style={{ marginTop: "1em", marginBottom: "1em" }}>
-          <Header>
-            <h1 style={{ color: "white" }}>CMS Editor</h1>
-          </Header>
-        </Container>
-      </Menu>
-      <Container style={{ paddingTop: "7em" }}>
-        <Switch>
-          <Route path="/:page">
-            <PageAdmin />
-          </Route>
-          <Route path="/">
-            <div>Home</div>
-          </Route>
-        </Switch>
-      </Container>
-    </Container>
-  </Router>
+  <Shell>
+    <Router>
+      <div className="max-w-7xl mx-auto">
+        <header className="bg-blue-700 text-white w-full font-bold text-3xl">
+          <h1 className="p-5">CMS Editor</h1>
+        </header>
+        <div className="mt-10 text-3xl">
+          <Routes>
+            <Route path="/:page" element={<PageAdmin />} />
+            <Route path="/" element={<div>Home</div>} />
+          </Routes>
+        </div>
+      </div>
+    </Router>
+  </Shell>
 );
 
 ReactDOM.render(<App />, document.getElementById("app"));

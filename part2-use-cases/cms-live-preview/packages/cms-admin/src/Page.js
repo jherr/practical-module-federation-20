@@ -1,30 +1,38 @@
 import React from "react";
-import { Grid } from "semantic-ui-react";
 
 const Page = ({ title, text, img1, img2, img3 }) => (
-  <>
+  <div>
     <h1 style={{ borderBottom: "5px solid black" }}>{title}</h1>
     <p>{text}</p>
-    <Grid columns={3}>
-      <Grid.Row>
+    <div className="grid-cols-3">
+      <>
         {img1 && (
-          <Grid.Column>
-            <img src={img1} style={{ width: "100%" }} />
-          </Grid.Column>
+          <div>
+            <img
+              src={img1}
+              className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+            />
+          </div>
         )}
         {img2 && (
-          <Grid.Column>
-            <img src={img2} style={{ width: "100%" }} />
-          </Grid.Column>
+          <div>
+            <img
+              src={img2}
+              className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+            />
+          </div>
         )}
         {img3 && (
-          <Grid.Column>
-            <img src={img3} style={{ width: "100%" }} />
-          </Grid.Column>
+          <div>
+            <img
+              src={img3}
+              className="w-full h-full object-center object-cover lg:w-full lg:h-full"
+            />
+          </div>
         )}
-      </Grid.Row>
-    </Grid>
-  </>
+      </>
+    </div>
+  </div>
 );
 
 export default Page;

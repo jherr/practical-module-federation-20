@@ -5,9 +5,8 @@ import Editor from "./Editor";
 import { fetchPage } from "./api";
 
 const PageAdmin = ({ page }) => {
-  const { data } = useQuery(
-    ["getPage", { page }],
-    fetchPage("http://localhost:8080")
+  const { data, isLoading } = useQuery(["getPage", { page }], () =>
+    fetchPage("http://localhost:8080")(page)
   );
   const [fields, setFields] = React.useState({});
 
@@ -15,7 +14,7 @@ const PageAdmin = ({ page }) => {
     setFields(data);
   }, [data]);
 
-  if (!data) {
+  if (isLoading || !data) {
     return null;
   }
 
