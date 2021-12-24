@@ -1,7 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "./index.css";
+import "./index.scss";
+
 const FallbackHeader = React.lazy(() => import("nav/build/Header"));
 const Header = React.lazy(() => import("mf-nav/Header"));
 
@@ -35,7 +36,7 @@ class HeaderWrapper extends React.Component {
 }
 
 const App = () => (
-  <div>
+  <div className="mx-auto max-w-7xl">
     <HeaderWrapper />
     <div>Hi there, I'm React from React.</div>
   </div>

@@ -1,15 +1,8 @@
 import React from "react";
 
 const Header = () => (
-  <div
-    style={{
-      padding: "1em",
-      background: "green",
-      color: "white",
-      fontSize: "xx-large",
-    }}
-  >
-    HEADER!
+  <div className="bg-green-800 text-white font-bold text-2xl p-4">
+    New Header
   </div>
 );
 
