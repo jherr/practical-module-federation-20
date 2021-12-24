@@ -1,40 +1,36 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 const deps = require("./package.json").dependencies;
 module.exports = {
-  entry: "./src/index",
-  cache: false,
-
-  mode: "development",
-  devtool: "source-map",
-
-  optimization: {
-    minimize: false,
-  },
-
   output: {
-    publicPath: "http://localhost:3003/",
+    publicPath: "http://localhost:3002/",
   },
 
   resolve: {
-    extensions: [".jsx", ".js", ".json"],
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
+  },
+
+  devServer: {
+    port: 3002,
+    historyApiFallback: true,
   },
 
   module: {
     rules: [
       {
-        test: /\.m?js/, type: "javascript/auto",
+        test: /\.m?js/,
+        type: "javascript/auto",
         resolve: {
-          fullySpecified: false
-        }
+          fullySpecified: false,
+        },
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(css|s[ac]ss)$/i,
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -48,9 +44,9 @@ module.exports = {
       name: "search",
       filename: "remoteEntry.js",
       remotes: {
-        home: "home@http://localhost:3001/remoteEntry.js",
-        profile: "profile@http://localhost:3002/remoteEntry.js",
-        search: "search@http://localhost:3003/remoteEntry.js",
+        home: "home@http://localhost:3000/remoteEntry.js",
+        profile: "profile@http://localhost:3001/remoteEntry.js",
+        search: "search@http://localhost:3002/remoteEntry.js",
       },
       exposes: {
         "./Search": "./src/Search",
@@ -67,13 +63,8 @@ module.exports = {
         },
       },
     }),
-    new HtmlWebpackPlugin({
+    new HtmlWebPackPlugin({
       template: "./src/index.html",
     }),
   ],
-
-  devServer: {
-    port: 3003,
-    historyApiFallback: true,
-  },
 };
