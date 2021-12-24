@@ -1,1 +1,1 @@
-export default () => true;
+import("./App");

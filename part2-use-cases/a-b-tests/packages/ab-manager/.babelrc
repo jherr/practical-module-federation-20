@@ -1,10 +1,6 @@
 {
   "presets": ["@babel/preset-react", "@babel/preset-env"],
   "plugins": [
-    ["module-resolver", {
-      "alias": {
-        "ab-manager": "./src"
-      }
-    }]
+     ["@babel/transform-runtime"]
   ]
 }

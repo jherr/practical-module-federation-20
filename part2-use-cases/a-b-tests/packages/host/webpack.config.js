@@ -8,11 +8,12 @@ module.exports = {
   },
 
   resolve: {
-    extensions: [".jsx", ".js", ".json"],
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".json"],
   },
 
   devServer: {
     port: 8080,
+    historyApiFallback: true,
   },
 
   module: {
@@ -25,11 +26,11 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
+        test: /\.(css|s[ac]ss)$/i,
+        use: ["style-loader", "css-loader", "postcss-loader"],
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -43,8 +44,8 @@ module.exports = {
       name: "host",
       filename: "remoteEntry.js",
       remotes: {
-        "ab-manager": "ab_mgr@http://localhost:8081/remoteEntry.js",
         host: "host@http://localhost:8080/remoteEntry.js",
+        "ab-manager": "ab_manager@http://localhost:8081/remoteEntry.js",
       },
       exposes: {
         "./FrameA": "./src/FrameA",

@@ -1,15 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
-import "./index.css";
-
 import VariantChooser from "ab-manager/VariantChooser";
+
+import "./index.scss";
 
 const FrameA = React.lazy(() => import("host/FrameA"));
 const FrameB = React.lazy(() => import("host/FrameB"));
 
 const App = () => (
-  <div style={{ width: 800, margin: "auto" }}>
+  <div className="mt-10 text-3xl mx-auto max-w-6xl">
     <p>This is a cute dog.</p>
     <VariantChooser
       test="test1"
@@ -23,5 +23,4 @@ const App = () => (
     <p>You should adopt this dog!</p>
   </div>
 );
-
 ReactDOM.render(<App />, document.getElementById("app"));
