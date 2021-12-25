@@ -1,21 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { observable } from "mobx";
 import { observer } from "mobx-react";
+
+import store from "host/store";
 
 const Header = React.lazy(() => import("my-nav/Header"));
 
 import "./index.scss";
 
-const store = observable({
-  count: 0,
-});
-
-const App = observer(({ store }) => {
+const App = observer(() => {
   return (
     <div className="mt-10 text-3xl mx-auto max-w-6xl">
       <React.Suspense fallback={<div />}>
-        <Header store={store} />
+        <Header />
       </React.Suspense>
       <div className="mt-10">Hi there, I'm some cool product.</div>
       <button
@@ -29,4 +26,4 @@ const App = observer(({ store }) => {
   );
 });
 
-ReactDOM.render(<App store={store} />, document.getElementById("app"));
+ReactDOM.render(<App />, document.getElementById("app"));

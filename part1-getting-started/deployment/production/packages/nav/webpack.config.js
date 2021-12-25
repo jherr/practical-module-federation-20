@@ -2,9 +2,12 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 const deps = require("./package.json").dependencies;
-module.exports = {
+module.exports = (env, argv) => ({
   output: {
-    publicPath: "http://localhost:3001/",
+    publicPath:
+      argv.mode === "production"
+        ? "http://localhost:8081/"
+        : "http://localhost:3001/",
   },
 
   resolve: {
@@ -43,9 +46,7 @@ module.exports = {
     new ModuleFederationPlugin({
       name: "nav",
       filename: "remoteEntry.js",
-      remotes: {
-        host: "host@http://localhost:3000/remoteEntry.js",
-      },
+      remotes: {},
       exposes: {
         "./Header": "./src/Header",
       },
@@ -65,4 +66,4 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
-};
+});

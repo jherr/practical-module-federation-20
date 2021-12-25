@@ -2,9 +2,9 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPlugin");
 
 const deps = require("./package.json").dependencies;
-module.exports = {
+module.exports = (env, argv) => ({
   output: {
-    publicPath: "http://localhost:3001/",
+    publicPath: "http://localhost:3000/",
   },
 
   resolve: {
@@ -12,7 +12,7 @@ module.exports = {
   },
 
   devServer: {
-    port: 3001,
+    port: 3000,
     historyApiFallback: true,
   },
 
@@ -41,14 +41,14 @@ module.exports = {
 
   plugins: [
     new ModuleFederationPlugin({
-      name: "nav",
+      name: "host",
       filename: "remoteEntry.js",
       remotes: {
-        host: "host@http://localhost:3000/remoteEntry.js",
+        nav: `nav@http://localhost:${
+          argv.mode === "production" ? 8081 : 3001
+        }/remoteEntry.js`,
       },
-      exposes: {
-        "./Header": "./src/Header",
-      },
+      exposes: {},
       shared: {
         ...deps,
         react: {
@@ -65,4 +65,4 @@ module.exports = {
       template: "./src/index.html",
     }),
   ],
-};
+});

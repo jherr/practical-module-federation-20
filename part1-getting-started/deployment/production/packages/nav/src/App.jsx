@@ -6,9 +6,9 @@ import Header from "./Header";
 import "./index.scss";
 
 const App = () => (
-  <div className="mt-10 text-3xl mx-auto max-w-6xl">
+  <div className="text-3xl mx-auto max-w-6xl">
     <Header />
-    <div className="mt-10">Nav project</div>
+    <div>Name: nav</div>
   </div>
 );
 
