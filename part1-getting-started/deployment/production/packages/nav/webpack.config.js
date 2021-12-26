@@ -8,6 +8,7 @@ module.exports = (env, argv) => ({
       argv.mode === "production"
         ? "http://localhost:8081/"
         : "http://localhost:3001/",
+    // publicPath: "auto",
   },
 
   resolve: {
