@@ -1,3 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default () => <div>I'm a cool widget</div>;
+export default () => {
+  const [count, setCount] = useState(0);
+
+  return <div>I'm a cool widget</div>;
+};

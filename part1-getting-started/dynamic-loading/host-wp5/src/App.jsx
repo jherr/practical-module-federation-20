@@ -4,11 +4,14 @@ import ReactDOM from "react-dom";
 import "./index.scss";
 
 function loadComponent(scope, module) {
-  return () =>
-    window[scope].get(module).then((factory) => {
-      const Module = factory();
-      return Module;
-    });
+  return async () => {
+    await __webpack_init_sharing__("default");
+    const container = window[scope];
+    await container.init(__webpack_share_scopes__.default);
+    const factory = await window[scope].get(module);
+    const Module = factory();
+    return Module;
+  };
 }
 
 const useDynamicScript = (args) => {
