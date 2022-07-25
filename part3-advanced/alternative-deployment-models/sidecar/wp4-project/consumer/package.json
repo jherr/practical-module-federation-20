@@ -1,12 +1,12 @@
 {
-  "name": "wp5-sidecar",
+  "name": "home",
   "version": "1.0.0",
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development",
-    "build:start": "cd dist && PORT=3000 npx serve",
-    "start": "webpack serve --port 3000 --open --mode development",
-    "start:live": "webpack serve --port 3000 --open --mode development --live-reload --hot"
+    "build:start": "cd dist && PORT=8080 npx serve",
+    "start": "webpack serve --open --mode development",
+    "start:live": "webpack serve --open --mode development --live-reload --hot"
   },
   "license": "MIT",
   "author": {
@@ -27,7 +27,8 @@
     "style-loader": "^3.3.0",
     "webpack": "^5.57.1",
     "webpack-cli": "^4.9.0",
-    "webpack-dev-server": "^4.3.1"
+    "webpack-dev-server": "^4.3.1",
+    "tailwindcss": "^2.0.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
